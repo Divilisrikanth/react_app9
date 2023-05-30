@@ -1,23 +1,52 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
+  const [selectedValue, setSelectedValue] = useState('');
+  const [options, setOptions] = useState(['Option 1', 'Option 2', 'Option 3']);
+  const [newValue, setNewValue] = useState('');
+
+  const handleSelectChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
+
+  const handleAddOption = () => {
+    if (newValue) {
+      setOptions([...options, newValue]);
+      setNewValue('');
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <select
+        className="select-box"
+        value={selectedValue}
+        onChange={handleSelectChange}
+      >
+        <option value="">Select an option</option>
+        {options.map((option, index) => (
+          <option key={index} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+
+      <div className="selected-value">
+        <h3>Selected Value: {selectedValue}</h3>
+      </div>
+
+      <div className="add-option">
+        <input
+          type="text"
+          className="option-input"
+          value={newValue}
+          onChange={(event) => setNewValue(event.target.value)}
+        />
+        <button className="add-button" onClick={handleAddOption}>
+          Add Option
+        </button>
+      </div>
     </div>
   );
 }
